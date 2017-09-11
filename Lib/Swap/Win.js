@@ -9,17 +9,22 @@ class SwapWin extends SwapAbstract{
   }
   // @see http://steve-jansen.github.io/guides/windows-batch-scripting/part-2-variables.html
   getScriptContent(){
+    const { swapScript } = this.options;
     return `@echo off
 SET execDir=%~1
 SET updateDir=%~2
 SET backupDir=%~3
 SET runner=%~4
 SET verbose=%~5
-
+`
++
+(swapScript || `
 rmdir "%backupDir%" /s /q
 xcopy "%execDir%" "%backupDir%" /e /i /h /c /y
 xcopy "%updateDir%" "%execDir%" /e /i /h /c /y
-
+`)
++
+`
 "%execDir%\\%runner%"
 `;
   }
